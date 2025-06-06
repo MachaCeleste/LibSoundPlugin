@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+using LibSoundPlugin;
 
 namespace AssetBundleTools
 {
@@ -9,22 +10,21 @@ namespace AssetBundleTools
     {
         public static AssetBundle bundle;
 
-        public static void LoadBundle(string name)
+        public static void LoadBundle()
         {
-            Debug.Log($"Loading asset bundle {name}");
-            string bundlePath = Path.Combine(Paths.PluginPath, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), name);
+            string bundlePath = Path.Combine(Paths.PluginPath, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), MyPluginInfo.PLUGIN_NAME + ".bundle");
             if (!File.Exists(bundlePath))
             {
-                Debug.LogError($"AssetBundleTool: {name} not found!");
+                Debug.LogError($"AssetBundleTool {MyPluginInfo.PLUGIN_NAME}: Bundle not found!");
                 return;
             }
             bundle = AssetBundle.LoadFromFile(bundlePath);
             if (bundle == null)
             {
-                Debug.LogError($"AssetBundleTool: Failed to load {name}!");
+                Debug.LogError($"AssetBundleTool {MyPluginInfo.PLUGIN_NAME}: Failed to load bundle!");
                 return;
             }
-            Debug.Log($"AssetBundleTool: Loaded {name}");
+            Debug.Log($"AssetBundleTool {MyPluginInfo.PLUGIN_NAME}: Loaded bundle");
         }
 
         public static GameObject GetPrefab(string path)
@@ -32,7 +32,7 @@ namespace AssetBundleTools
             var prefab = bundle.LoadAsset<GameObject>(path);
             if (prefab == null)
             {
-                Debug.LogError($"AssetBundleTool: Failed to load prefab {path}");
+                Debug.LogError($"AssetBundleTool {MyPluginInfo.PLUGIN_NAME}: Failed to load prefab {path}");
                 return null;
             }
             return prefab;
@@ -43,7 +43,7 @@ namespace AssetBundleTools
             var clip = bundle.LoadAsset<AudioClip>(path);
             if (clip == null)
             {
-                Debug.LogError($"AssetBundleTool: Failed to load audio clip {path}");
+                Debug.LogError($"AssetBundleTool {MyPluginInfo.PLUGIN_NAME}: Failed to load audio clip {path}");
                 return null;
             }
             return clip;

@@ -13,25 +13,23 @@ namespace LibSoundPlugin
     {
         public static AudioManager Singleton;
 
-        public AudioSource ConfirmSource;
-        public AudioClip ConfirmFallback;
-
         public AudioSource MailSource;
         public AudioClip MailFallback;
+
+        public AudioSource ChatSource;
+        public AudioClip ChatFallback;
 
         public AudioSource OpenSource;
         public AudioClip OpenFallback;
 
-        public AudioSource PopupSource;
-        public AudioClip PopupFallback;
-
-        public AudioSource MinimizeSource;
-        public AudioClip MinimizeFallback;
+        public AudioSource CloseSource;
+        public AudioClip CloseFallback;
 
         public AudioSource ErrorSource;
         public AudioClip ErrorFallback;
 
-        //public AudioSource PcSpeakerSource;
+        public AudioSource TraceSource;
+        public AudioClip TraceFallback;
 
         public AudioManager()
         {
@@ -40,51 +38,52 @@ namespace LibSoundPlugin
 
         public void Init(GameObject prefab)
         {
-            this.ConfirmSource = prefab.transform.Find("ConfirmSound").GetComponent<AudioSource>();
-            this.ConfirmFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/confirm.wav");
-
             this.MailSource = prefab.transform.Find("MailSound").GetComponent<AudioSource>();
             this.MailFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/mail.wav");
+
+            this.ChatSource = prefab.transform.Find("ChatSound").GetComponent<AudioSource>();
+            this.ChatFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/chat.wav");
 
             this.OpenSource = prefab.transform.Find("OpenSound").GetComponent<AudioSource>();
             this.OpenFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/open.wav");
 
-            this.PopupSource = prefab.transform.Find("PopupSound").GetComponent<AudioSource>();
-            this.PopupFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/popup.wav");
-
-            this.MinimizeSource = prefab.transform.Find("MinimizeSound").GetComponent<AudioSource>();
-            this.MinimizeFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/minimize.wav");
+            this.CloseSource = prefab.transform.Find("CloseSound").GetComponent<AudioSource>();
+            this.CloseFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/close.wav");
 
             this.ErrorSource = prefab.transform.Find("ErrorSound").GetComponent<AudioSource>();
-            this.ErrorFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/faitalerror.wav");
+            this.ErrorFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/error.wav");
 
-            //this.PcSpeakerSource = prefab.transform.Find("PcSpeakerSound").GetComponent<AudioSource>();
+            this.TraceSource = prefab.transform.Find("TraceSound").GetComponent<AudioSource>();
+            this.TraceFallback = BundleTool.GetClip("Assets/LibSoundPlugin/Sounds/error.wav");
         }
 
         public void Play(IdSound ID)
         {
             switch (ID)
             {
-                case IdSound.Confirm:
-                    this.ConfirmSource.Play();
-                    return;
                 case IdSound.Mail:
-                    this.MailSource.Play();
+                    if (Plugin.MailSound.Value)
+                        this.MailSource.Play();
+                    return;
+                case IdSound.Chat:
+                    if (Plugin.ChatSound.Value)
+                        this.ChatSource.Play();
                     return;
                 case IdSound.Open:
-                    this.OpenSource.Play();
+                    if (Plugin.OpenSound.Value)
+                        this.OpenSource.Play();
                     return;
-                case IdSound.Popup:
-                    this.PopupSource.Play();
-                    return;
-                case IdSound.Minimize:
-                    this.MinimizeSource.Play();
+                case IdSound.Close:
+                    if (Plugin.CloseSound.Value)
+                        this.CloseSource.Play();
                     return;
                 case IdSound.Error:
-                    this.ErrorSource.Play();
+                    if (Plugin.ErrorSound.Value)
+                        this.ErrorSource.Play();
                     return;
-                case IdSound.Spk:
-                    //this.PcSpeakerSource.Play();
+                case IdSound.Trace:
+                    if (Plugin.TraceSound.Value)
+                        this.TraceSource.Play();
                     return;
             }
         }
@@ -147,17 +146,17 @@ namespace LibSoundPlugin
                 }
                 switch (ID)
                 {
-                    case IdSound.Confirm:
-                        if (clip != null && this.ConfirmSource.clip?.name != clip.name)
-                            this.ConfirmSource.clip = clip;
-                        else if (clip == null)
-                            this.ConfirmSource.clip = this.ConfirmFallback;
-                        break;
                     case IdSound.Mail:
                         if (clip != null && this.MailSource.clip?.name != clip.name)
                             this.MailSource.clip = clip;
                         else if (clip == null)
                             this.MailSource.clip = this.MailFallback;
+                        break;
+                    case IdSound.Chat:
+                        if (clip != null && this.TraceSource.clip?.name != clip.name)
+                            this.TraceSource.clip = clip;
+                        else if (clip == null)
+                            this.TraceSource.clip = this.TraceFallback;
                         break;
                     case IdSound.Open:
                         if (clip != null && this.OpenSource.clip?.name != clip.name)
@@ -165,25 +164,23 @@ namespace LibSoundPlugin
                         else if (clip == null)
                             this.OpenSource.clip = this.OpenFallback;
                         break;
-                    case IdSound.Popup:
-                        if (clip != null && this.PopupSource.clip?.name != clip.name)
-                            this.PopupSource.clip = clip;
+                    case IdSound.Close:
+                        if (clip != null && this.CloseSource.clip?.name != clip.name)
+                            this.CloseSource.clip = clip;
                         else if (clip == null)
-                            this.PopupSource.clip = this.PopupFallback;
-                        break;
-                    case IdSound.Minimize:
-                        if (clip != null && this.MinimizeSource.clip?.name != clip.name)
-                            this.MinimizeSource.clip = clip;
-                        else if (clip == null)
-                            this.MinimizeSource.clip = this.MinimizeFallback;
+                            this.CloseSource.clip = this.CloseFallback;
                         break;
                     case IdSound.Error:
                         if (clip != null && this.ErrorSource.clip?.name != clip.name)
                             this.ErrorSource.clip = clip;
-                        else if (clip != null)
+                        else if (clip == null)
                             this.ErrorSource.clip = this.ErrorFallback;
                         break;
-                    case IdSound.Spk:
+                    case IdSound.Trace:
+                        if (clip != null && this.TraceSource.clip?.name != clip.name)
+                            this.TraceSource.clip = clip;
+                        else if (clip == null)
+                            this.TraceSource.clip = this.TraceFallback;
                         break;
                 }
             }
@@ -191,13 +188,12 @@ namespace LibSoundPlugin
 
         public enum IdSound
         {
-            Confirm,
             Mail,
+            Chat,
             Open,
-            Popup,
-            Minimize,
+            Close,
             Error,
-            Spk
+            Trace
         }
     }
 }

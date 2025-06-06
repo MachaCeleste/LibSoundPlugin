@@ -11,7 +11,7 @@ public class IconBarChatPatch
         {
             if (enable && !__instance.textNotification.activeSelf)
             {
-                AudioManager.Singleton?.Play(AudioManager.IdSound.Popup);
+                AudioManager.Singleton?.Play(AudioManager.IdSound.Chat);
             }
         }
     }

@@ -9,8 +9,14 @@ public class NotificationsPatch
     {
         static void Postfix(Notifications __instance, ref string message, ref Notifications.NotifType notifType, ref bool openProgram)
         {
-            if (notifType == Notifications.NotifType.MAIL)
-                AudioManager.Singleton?.Play(AudioManager.IdSound.Mail);
+            switch (notifType)
+            {
+                case Notifications.NotifType.MAIL:
+                    AudioManager.Singleton?.Play(AudioManager.IdSound.Mail);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

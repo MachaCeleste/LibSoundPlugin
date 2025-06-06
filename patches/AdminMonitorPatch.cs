@@ -9,7 +9,7 @@ public class AdminMonitorPatch
     {
         static void Prefix()
         {
-            AudioManager.Singleton?.Play(AudioManager.IdSound.Error);
+            AudioManager.Singleton?.Play(AudioManager.IdSound.Trace);
         }
     }
 }

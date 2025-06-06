@@ -13,6 +13,9 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>LibSoundPlugin</RootNamespace>
+    <Title>Lib Sound Plugin</Title>
+    <Authors>Macha Celeste</Authors>
+    <Company>Celestial Corp</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -450,6 +453,6 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\&quot; mkdir &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\$(ProjectName).dll&quot;&#xA;if &quot;$(Configuration)&quot; == &quot;Release&quot; &quot;C:\Program Files\WinRAR\WinRAR.exe&quot; a -r -ep1 &quot;$(SolutionDir)bin\$(Configuration)\$(ProjectName).rar&quot; &quot;$(SolutionDir)bin\$(Configuration)\BepInEx&quot;" />
+    <Exec Command="if not exist &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\&quot; mkdir &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\&quot;&#xD;&#xA;copy /Y &quot;$(ProjectDir)$(ProjectName).bundle&quot; &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\$(ProjectName).bundle&quot;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)bin\$(Configuration)\BepInEx\plugins\$(ProjectName)\$(ProjectName).dll&quot;&#xA;if &quot;$(Configuration)&quot; == &quot;Release&quot; &quot;C:\Program Files\WinRAR\WinRAR.exe&quot; a -r -ep1 &quot;$(SolutionDir)bin\$(Configuration)\$(ProjectName).rar&quot; &quot;$(SolutionDir)bin\$(Configuration)\BepInEx&quot;" />
   </Target>
 </Project>

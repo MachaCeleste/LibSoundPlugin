@@ -9,7 +9,7 @@ public class ComputerPatch
     {
         static void Postfix()
         {
-            AudioManager.Singleton?.Play(AudioManager.IdSound.Minimize);
+            AudioManager.Singleton?.Play(AudioManager.IdSound.Close);
         }
     }
 }
